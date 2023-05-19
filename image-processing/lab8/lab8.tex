@@ -1,0 +1,100 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《图像处理实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \makebox[150pt]{\Large 应用案例2-道路检测}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \makebox[100pt]{\Large xxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \makebox[100pt]{\Large 2022.XX.XX}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+    掌握图像处理算法在道路检测或车道线检测中的应用
+
+  \section{实验内容}
+    根据前几次课内容，设计算法，实现图像中道路的检测或车道线的检测。
+    要求标记出道路或车道线区域(道路或车道线标记1,其他标记0)
+
+  \section{算法设计}
+    \begin{enumerate}
+      \item 给出算法的设计思路，说明每部分算法的作用
+      \begin{enumerate}
+        \item 读取图像并灰度化处理，使用Canny提取边缘，获得车道线和道路的轮廓信息
+        \item 对轮廓做霍夫变换，得到若干直线
+        \item 根据透视原理用角度过滤掉非行进方向的直线
+        \item 根据直线角度信息(小于或大于90度)区分左侧道路线和右侧道路线
+        \item 以剩余直线为界限，利用搜索算法填充各个区域，得到不同区域的Mask
+      \end{enumerate}
+      \item 分析不同分割方法在道路或车道线检测问题中有哪些优缺点
+    \end{enumerate}
+
+  \section{运行结果与分析}
+    \begin{figure}[H]
+      \includegraphics*[width=1.0\textwidth]{fig/raw.png}
+      \caption{原始图像}
+    \end{figure}
+    \newpage
+    \begin{figure}[H]
+      \includegraphics*[width=1.0\textwidth]{fig/gray.png}
+      \caption{灰度图}
+      \includegraphics*[width=1.0\textwidth]{fig/edge.png}
+      \caption{Canny边缘}
+      \includegraphics*[width=1.0\textwidth]{fig/block.png}
+      \caption{霍夫变换检测路面和车道线边缘}
+    \end{figure}
+    \newpage
+    \begin{figure}[H]
+      \includegraphics*[width=1.0\textwidth]{fig/road.png}
+      \caption{路面区域(白色区块)}
+      \includegraphics*[width=1.0\textwidth]{fig/line.png}
+      \caption{车道线区域(黑色区块)}
+    \end{figure}
+
+  \section{实验小结}
+  这次实验使用了理论课上没有讲的霍夫变换，通过搜索参数空间能够将离散的像素点与连续的曲线方程联系起来，
+  让我体会到了数学之美。
+
+\end{document}

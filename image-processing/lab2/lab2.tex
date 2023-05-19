@@ -1,0 +1,111 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=2.0cm, bottom=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《图像处理实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \makebox[100pt]{\Large 彩色空间变换}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \makebox[100pt]{\Large xxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \makebox[100pt]{\Large yyyy.mm.dd}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+  掌握使用Matlab进行彩色图像处理的方法，加深对彩色空间和彩色图像的理解
+
+  \section{实验内容}
+  \begin{enumerate}
+    \item 读取任一图像，同屏显示彩色图像原图及各通道图像
+    \item 编写程序实现RGB-HSI空间的相互转换，同屏显示原图与HSI空间各通道图像
+    \item 编写程序在不改变色调的情况下，将原图亮度提高20\%，并同屏显示原图与变换后的图像
+    \item 编写程序在不改变色调的情况下，将原图饱和度提高20\%，并同屏显示原图与变换后的图像
+  \end{enumerate}
+
+  \section{算法设计}
+  \begin{enumerate}
+    \item \textbf{说明RGB图像各通道的含义及取值范围}\\
+    RGB图像包含R、G、B三个通道，分别表示红色(Red)、绿色(Green)和蓝色(Blue)的值，
+    值越大对应的颜色就越亮\\
+    对任一通道来说，当通道数据类型为整型时取值范围为[0,255]，当类型为浮点型时取值范围为[0,1]
+    \item \textbf{说明HSI图像各通道的含义以及取值范围}\\
+    HSI图像包含H、S、I三个通道，分别表示色调(Hue), 饱和度(Saturation)和亮度(Lightness)\\
+    其中色调H决定颜色，不同的值表示不同的颜色；取值范围为[0,360](度)或[0,$2\pi$](弧度)\\
+    饱和度S决定了颜色的纯度，值越大颜色越纯，值越小颜色越接近灰色；取值范围为[0,1](浮点型)\\
+    亮度L决定了颜色的明亮程度，值越大颜色越亮，值越小颜色越暗；取值范围为[0,1](浮点型)
+  \end{enumerate}
+
+  \newpage
+  \section{运行结果与分析}
+  \subsection*{实验内容1}
+  \begin{figure}[H]
+    \centering
+      \includegraphics*[width=0.7\textwidth]{fig/R-G-B.png}
+      \caption{从上到下从左到右依次为原图、R通道、G通道和B通道}
+  \end{figure}
+  \subsection*{实验内容2}
+  \begin{figure}[H]
+    \centering
+      \includegraphics*[width=0.7\textwidth]{fig/H-S-I.png}
+      \caption{从上到下从左到右依次为原图、H通道、S通道和I通道}
+  \end{figure}
+  \subsection*{实验内容3}
+  \begin{figure}[H]
+    \centering
+      \includegraphics*[width=1\textwidth]{fig/bright20.png}
+      \caption{左图为原图，右图为原图提高20\%亮度的结果}
+  \end{figure}
+  \subsection*{实验内容4}
+  \begin{figure}[H]
+    \centering
+      \includegraphics*[width=1\textwidth]{fig/sat20.png}
+      \caption{左图为原图，右图为原图提高20\%饱和度的结果}
+  \end{figure}
+
+  \section{实验小结}
+  在对图像进行彩色空间转换时，应用转换公式之前要注意对像素值进行处理，如进行归一化等，
+  避免在不同取值范围的像素之间进行运算
+
+  当使用HSI空间提高图像的亮度和对比度时，不能再将像素值重新映射到[0,1]范围内，
+  而应将大于1的值置为1，否则会导致结果无变化或不明显
+
+\end{document}

@@ -1,0 +1,114 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《图像处理实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \makebox[100pt]{\Large 图像直方图变换}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \makebox[100pt]{\Large xxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \makebox[100pt]{\Large yyyy.mm.dd}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+  \begin{enumerate}
+    \item 掌握灰度直方图的概念及其计算方法
+    \item 掌握直方图均衡化计算过程
+    \item 掌握彩色直方图的概念和计算方法
+    \item 编程实现图像增强算法
+  \end{enumerate}
+
+  \section{实验内容}
+  \begin{enumerate}
+    \item 读取任一彩色图，根据直方图的定义编写程序按步骤实现直方图绘制与均衡化代码，
+    并使用Matlab图像工具箱中的直方图计算与均衡化函数对实验结果进行验证
+    \item 附加题1：调用1中编写的函数，实现彩色图像的直方图均衡化
+  \end{enumerate}
+
+  \section{算法设计}
+  \paragraph*{1.简述直方图均衡化算法实现步骤\\}
+  先将图像数据类型转换为uint8型，统计图像中灰度值相同的像素点的个数，
+  然后将每个灰度值的个数除以像素点总数，得到每个灰度值的分布概率，
+  最后对这些灰度值的分布概率做类似香农编码的处理，从0开始逐个累加，
+  并且每累加一次都乘以255得到该灰度值对应的直方图均衡化后的值，即可得到一个灰度值映射曲线，
+  然后将其应用到原图像就得到了直方图均衡化后的结果
+  \paragraph*{2.图像直方图均衡化后有何变化，为什么？\\}
+  对图像做直方图均衡化会增强图像的对比度\\
+  因为直方图均衡化倾向于使图像的每个灰度值的分布概率相同，
+  因此能将图像中灰度值较集中的区域分布到其他灰度等级上
+
+  \section{运行结果与分析}
+
+  \subsection*{显示图像直方图}
+  \begin{figure}[H]
+    \includegraphics*[width=1.0\textwidth]{fig/hist.png}
+    \caption{左图为原图像；中图为自己实现的直方图函数；右图为调用matplotlib的库函数}
+  \end{figure}
+
+  \subsection*{直方图均衡化}
+  \begin{figure}[H]
+    \includegraphics*[width=1.0\textwidth]{fig/equagray.png}
+    \caption{左图为原图像；中图为自己实现的直方图均衡化；右图为调用opencv的库函数}
+  \end{figure}
+
+  \subsection*{直方图均衡化变换曲线}
+  \begin{figure}[H]
+    \centering \includegraphics*[width=0.4\textwidth]{fig/equacurve.png}
+    \caption{从曲线中可以看出，直方图均衡化对该图像起到了使图像变暗的效果}
+  \end{figure}
+
+  \subsection*{彩色图像直方图均衡化}
+  \begin{figure}[H]
+    \centering \includegraphics*[width=1.0\textwidth]{fig/equacolor.png}
+    \caption{左图为原图像；中图为直方图均衡化后的图像；右图为变换曲线}
+  \end{figure}
+  从曲线中可以看出，直方图均衡化对该图像起到了使暗处变暗、亮处变亮的效果
+
+  \section{实验小结}
+  本次实验通过手动绘制直方图和实现直方图均衡化算法，
+  使我对直方图均衡化算法有了更深刻的理解，并且与之前所学的信息论的知识有一定的联系，
+  让我意识到了这个算法背后所蕴含的基本原理(使灰度值分布概率相同，即降低图像的信息熵)，
+  并且有了改进算法的思路，如使用哈夫曼编码代替香农编码
+
+\end{document}

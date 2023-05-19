@@ -1,0 +1,97 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《图像处理实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \makebox[150pt]{\Large 应用案例1：车牌识别}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \makebox[100pt]{\Large xxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \makebox[100pt]{\Large yyyy.mm.dd}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+    掌握图像处理算法在车牌识别中的应用
+
+  \section{实验内容}
+    根据前几次课程内容，设计算法，实现图像中车牌的检测与识别
+
+  \section{算法设计}
+    \subsection{给出算法的设计思路，说明每部分算法的作用}
+    \begin{figure}[H]
+      \includegraphics*[width=1.0\textwidth]{rep/frame1.png}
+      \caption{字符分割模块}
+    \end{figure}
+    \begin{figure}[H]
+      \includegraphics*[width=1.0\textwidth]{rep/match.png}
+      \caption{字符匹配模块}
+    \end{figure}
+    其中用于匹配字符的模板是使用Adobe Heiti Std字体切割生成的，最后将切割后的字符与所有模板进行相关运算，
+    取相关性最高的模板为识别结果
+    \subsection{根据实验结果，分析所提出算法的优缺点，并给出可能的改进办法}
+    该算法的运行性能大约为21FPS(Intel I7 8750)，但是准确率较低，只有40\%左右。
+
+    从图1中可以看出，该方法已经能较好的提取出车牌图片，并且二值化后能生成清晰的轮廓，
+    可以认为车牌提取模块的效果比较理想。
+
+    从图2中可以看出，切割后的字符有扭曲和残缺的部分，无法较好地与模板相匹配，
+    而且采用相关匹配方法的准确率也比较低。因此该算法的准确率主要受到字符识别模块的影响。
+
+    可以考虑使用机器学习方法(如CNN网络)来代替图像学方法对车牌字符进行识别，而且可以跳过字符分割的过程，
+    直接对整个车牌进行识别，避免了字符分割对结果产生的负面影响。
+
+
+  \section{运行结果与分析}
+  \begin{figure}[H]
+    \includegraphics*[width=1.0\textwidth]{rep/res.png}
+    \caption{两张示例图片的检测结果}
+  \end{figure}
+
+  \section{实验小结}
+  本次综合性实验尝试了很多课堂上没有讲过的算法，并且取得了不错的效果，让我对图像处理的整个流程
+  有了一个系统化的架构概念，以及如何组织复杂的代码结构。
+
+  同时这次实验也让我认识到了传统的图像学方法的局限性和机器学习方法的优势
+
+\end{document}

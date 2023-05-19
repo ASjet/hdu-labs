@@ -1,0 +1,160 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《图像处理实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \makebox[100pt]{\Large 形态学运算}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \makebox[100pt]{\Large xxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \makebox[100pt]{\Large yyyy.mm.dd}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+  \begin{enumerate}
+    \item 掌握基本形态学运算原理
+    \item 熟悉形态学运算的应用
+  \end{enumerate}
+
+  \section{实验内容}
+  \begin{enumerate}
+    \item 基本操作: 对图像"rice.png"二值化，并实现对二值图像的膨胀、腐蚀、开运算、闭运算
+    \item 应用:
+    \begin{enumerate}
+      \item 针对"rice.png"图像，分别提取图像中的目标的内边缘、外边缘以及形态学边缘
+      \item 在边缘提取的基础上，实现任意一个区域的填充
+      \item 在区域填充的基础上，实现图像粗化
+      \item 在区域填充的基础上，实现图像细化
+    \end{enumerate}
+    \item 附加题: 棋盘格图像中交点位置的提取
+  \end{enumerate}
+
+  \section{算法设计}
+  \begin{enumerate}
+    \item 根据实验1中的结果，分析四种形态学运算在图像处理中的应用
+
+    \textit{腐蚀能够图像形态变小，即细化; 膨胀能够使图像形态变大，即粗化;
+    开算能够除去图中与卷积核尺寸相当的噪点; 闭运算能够填充图中与卷积核尺寸相当的孔洞}
+
+    \item 对图像I连续做多次开运算的结果是否有变化？对图像I连续做多次闭运算的结果是否有变化？
+
+    \textit{连续开运算或闭运算不改变图像}
+
+    \item 若给定棋盘格图像，可以用怎样的方式提取图像中的各交点位置坐标，给出能想到的算法设计思路
+
+    \textit{先对棋盘格图像进行二值化，形成黑白相间的格子，然后再用[0,1|1,0]作为卷积核做腐蚀操作}
+  \end{enumerate}
+
+  \section{运行结果与分析}
+  \newpage
+  \begin{figure}[H]
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+    \centering
+      \includegraphics*[width=0.5\textwidth]{fig/raw.png}
+      \caption{"rice.png"原图}
+      &
+      \centering
+      \includegraphics*[width=0.5\textwidth]{fig/bin.png}
+      \caption{二值化}
+    \end{tabular}
+
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+    \centering
+      \includegraphics*[width=0.5\textwidth]{fig/erd.png}
+      \caption{腐蚀}
+      &
+      \centering
+      \includegraphics*[width=0.5\textwidth]{fig/dlt.png}
+      \caption{膨胀}
+    \end{tabular}
+
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+    \centering
+      \includegraphics*[width=0.5\textwidth]{fig/open.png}
+      \caption{开运算}
+      &
+      \centering
+      \includegraphics*[width=0.5\textwidth]{fig/close.png}
+      \caption{闭运算}
+    \end{tabular}
+  \end{figure}
+  \newpage
+  \begin{figure}[H]
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+    \centering
+      \includegraphics*[width=0.5\textwidth]{fig/internal_edge.png}
+      \caption{内边缘}
+      &
+      \centering
+      \includegraphics*[width=0.5\textwidth]{fig/external_edge.png}
+      \caption{外边缘}
+    \end{tabular}
+
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+    \centering
+      \includegraphics*[width=0.5\textwidth]{fig/mor_edge.png}
+      \caption{形态学边缘}
+      &
+      \centering
+      \includegraphics*[width=0.5\textwidth]{fig/fill.png}
+      \caption{形态学填充(填充过程中的截图)}
+    \end{tabular}
+
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+    \centering
+      \includegraphics*[width=0.5\textwidth]{fig/dlt.png}
+      \caption{粗化}
+      &
+      \centering
+      \includegraphics*[width=0.5\textwidth]{fig/erd.png}
+      \caption{细化}
+    \end{tabular}
+  \end{figure}
+
+  \section{实验小结}
+  本次实验使用了形态学操作中的腐蚀和膨胀，以及其组合而成的开操作和闭操作，让我对腐蚀和膨胀
+  有了更加直观的理解。此外，通过组合腐蚀和膨胀来提取图像的形态学轮廓以及轮廓填充的操作也让我
+  更加认识了形态学运算的强大功能。
+
+\end{document}

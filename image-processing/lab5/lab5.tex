@@ -1,0 +1,127 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\usepackage{multicol}
+
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《图像处理实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \makebox[100pt]{\Large 图像边缘检测}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \makebox[100pt]{\Large xxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \makebox[100pt]{\Large xxxx}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \makebox[100pt]{\Large yyyy.mm.dd}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+  \begin{enumerate}
+    \item 掌握使用微分算子进行图像边缘检测的基本原理
+    \item 了解梯度算子、拉普拉斯算子的优缺点
+  \end{enumerate}
+
+  \section{实验内容}
+  \begin{enumerate}
+    \item 使用MATLAB工具箱中的roberts,prewitt,sobel算子以及拉普拉斯算子检测给定lena图像边缘，
+    对比实验结果
+    \item 根据算法原理编码实现sobel微分算子(非工具箱函数)，实现图像的边缘检测
+  \end{enumerate}
+
+  \section{代码实现}
+  \lstinputlisting[language=Python]{lab5.py}
+
+  \newpage
+  \newgeometry{top=1.0cm, bottom=2.0cm, left=1.0cm, right=1.0cm}
+  \section{运行结果与分析}
+  \begin{figure}[H]
+    \includegraphics*[width=1.0\textwidth]{fig/raw.png}
+    \caption{原始图片及简单处理}
+    \includegraphics*[width=1.0\textwidth]{fig/roberts.png}
+    \caption{Roberts边缘检测(阈值=50)}
+    \includegraphics*[width=1.0\textwidth]{fig/prewitt.png}
+    \caption{Prewitt边缘检测(阈值=50)}
+  \end{figure}
+
+  \newpage
+  \begin{figure}[H]
+    \begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
+      \centering
+      \includegraphics*[width=0.45\textwidth]{fig/laplas.png}
+      \caption{Laplacian边缘检测(阈值=50)}
+      &
+      \centering
+      \includegraphics*[width=0.45\textwidth]{fig/canny.png}
+      \caption{Canny边缘检测(阈值=50)}
+    \end{tabular}
+
+    \includegraphics*[width=1.0\textwidth]{fig/sobel1.png}
+    \caption{Opencv库函数实现Sobel边缘检测(阈值=50)}
+
+    \includegraphics*[width=1.0\textwidth]{fig/sobel2.png}
+    \caption{根据算法原理实现Sobel边缘检测(阈值=50)}
+  \end{figure}
+
+  \newpage
+  \newgeometry{top=1.0cm, bottom=2.0cm}
+  \section{问题思考}
+  \begin{enumerate}
+    \item 对比三种梯度算子与拉普拉斯算子边缘检测结果，分析各方法优缺点
+
+    \begin{itemize}
+      \item Roberts算子是2*2对角矩阵，检测精度高，但对噪声比较敏感
+      \item Prewitt是一种一阶微分算子，包括水平和竖直两个算子。
+      算子大小为3*3，能去掉伪边缘，对噪声具有平滑作用，但同时也会丢掉一些细节。
+      \item Sobel算子相比Prewitt算子，在不同的位置权重不一样，因此可以降低边缘模糊程度，
+      但得到的边缘较粗，而且可能出现伪边缘
+      \item 拉普拉斯算子是二阶梯度算子，能够找到变化平滑的边缘，但是对细节不敏感
+    \end{itemize}
+
+    \item 给出至少一种处理边缘的方法，使获得的边缘更连续
+
+    对图像做高斯滤波，以减少高斯噪声对边缘检测结果的影响
+  \end{enumerate}
+
+  \section{实验小结}
+  本次实验比较了多种边缘检测算子的结果，让我对不同边缘检测算子的优缺点有了一个直观的感受。
+  同时也亲自实现了Sobel边缘检测算法，让我更加理解了构造算子进行边缘检测的原理。
+
+\end{document}
