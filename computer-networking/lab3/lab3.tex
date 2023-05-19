@@ -1,0 +1,179 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\setmonofont{Cascadia Code PL}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{2cm}
+        {\fontsize{24pt}{0}
+          \textbf{计算机通信与网络\\实验报告\\}
+        }
+        \vspace*{10cm}
+        {\fontsize{16pt}{0}
+          \textbf{\ 姓\quad 名\ }: \underline{\makebox[100pt]{xxx}}\\
+          \textbf{\ 学\quad 号\ }: \underline{\makebox[100pt]{\Large xxxx}}\\
+          \textbf{\ 班\quad 级\ }: \underline{\makebox[100pt]{\Large xxxx}}\\
+          \textbf{上课时间}: \underline{\makebox[100pt]{\Large yyyy.mm.dd}}\\
+        }
+        \vspace*{7cm}
+        {\fontsize{16pt}{0}
+          \textbf{实验名称: {\Large Basic Network Configuration}}
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+    \begin{itemize}
+      \item Use commandline to check network configuration.
+    \end{itemize}
+
+  \section{实验内容与要求}
+    \begin{enumerate}
+      \item What is the purpose of \textbf{NET VIEW}:\\
+      显示局域网内所有的主机名(hostname)
+
+      \item List the machines after you have typed \textbf{NET VIEW} from the command prompt
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/NETVIEW.png}
+        \caption{NET VIEW输出}
+      \end{figure}
+
+      \item Record the following TCP/IP information for this computer
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/ip.png}
+        \caption[]{TCP/IP configuration in Linux}
+      \end{figure}
+      \makebox[100pt]{\textbf{IP Address}} \underline{\makebox[80pt]{192.168.1.103}}\\
+      \makebox[100pt]{\textbf{Subnet Mask}} \underline{\makebox[80pt]{255.255.255.0}}\\
+      \makebox[100pt]{\textbf{Default Gateway}} \underline{\makebox[80pt]{192.168.1.1}}
+
+      \newpage
+      \item Compare the TCP/IP configuration of this computer to others on the LAN
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/ip2.png}
+        \caption[]{TCP/IP configuration in PC and RaspberryPi4 both in Linux}
+      \end{figure}
+      \makebox[70pt]{\textbf{IP Address 1}} \underline{\makebox[80pt]{192.168.1.103}}\\
+      \makebox[70pt]{\textbf{IP Address 2}} \underline{\makebox[80pt]{192.168.1.107}}\\
+      \textbf{Are there any similarities?}\\
+      \underline{These two addresses are in the same subnet 192.168.1.0/24}\\
+      \textbf{What is similar about the default gateway?}\\
+      \underline{They have the same gateway router at 192.168.1.1}
+
+      \newpage
+      \item Mark the Physical Address(MAC) and the NIC model(Description)
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/mac.png}
+        \caption[]{MAC Address in PC and RaspberryPi4}
+        \includegraphics*[width=1.0\textwidth]{fig/nic.png}
+        \caption[]{NIC description in PC}
+        \includegraphics*[width=1.0\textwidth]{fig/macman.png}
+        \caption[]{NIC manufacturer(OEM)}
+      \end{figure}
+      \makebox[90pt]{\textbf{MAC Address}} \underline{\makebox[80pt]{c8:f7:50:7d:a6:fe}}\\
+      \makebox[90pt]{\textbf{NIC Description}} \underline{Qualcomm Atheros Killer E2500 Gigabit Ethernet Controller``}
+
+      \item While not a requirement, most LAN administrators try to standardize components like NICs.
+      Therefore, it would not be surprising to find all machines share the first three Hex pairs in the adapter address.
+      These three pairs identity the manufacturer of the adapter.\\
+      \textbf{c8:f7:50} Dell Inc.\\
+      \textbf{14:7d:da} Apple Inc\\
+      \textbf{e4:5f:01} Raspberry Pi Trading Ltd
+
+      \newpage
+      \item Write down the IP addresses of any servers listed(if any)
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/dhcp.png}
+        \caption[]{DHCP and DNS Server}
+      \end{figure}
+      \makebox[70pt]{\textbf{DHCP Server}} \underline{\makebox[80pt]{192.168.1.1}}\\
+      \makebox[70pt]{\textbf{DNS Server}} \underline{\makebox[80pt]{208.67.222.222}}\\
+      \makebox[70pt]{\textbf{DNS Server}} \underline{\makebox[80pt]{208.67.220.220}}
+
+      \item Write down the computer Hostname
+      \begin{figure}[H]
+        \centering \includegraphics*[width=0.5\textwidth]{fig/hostname.png}
+        \caption[]{Hostname of PC and RaspberryPi4}
+      \end{figure}
+      \underline{Anduril(192.168.1.103)}
+
+      \item Write down the Hostname of a couple other computers\\
+      \underline{Artemis.local(192.168.1.100)、RaspberryPi4(192.168.1.107)}\\
+      Do all of the servers and workstations share the same network portion of
+      the IP address as the student workstation? \underline{Yes except DNS Server}
+
+      \newpage
+      \item The following figure shows the successful results of ping to this IP address.
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/ping1.png}
+        \caption[]{From Anduril ping Artemis.local}
+      \end{figure}
+      Is the \textbf{ping} successful? \underline{Yes}\\
+      If a second networked computer is avaliable, try to \textbf{ping} the IP address of the
+      second machine. Note the results:
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/ping2.png}
+        \caption[]{From Anduril ping RaspberryPi4}
+      \end{figure}
+
+      \newpage
+      \item Try to \textbf{ping} the IP address of any DHCP and/or DNS servers listed
+      in the last exercise. If this works for either server, and they are not in the network,
+      what does this indicate?
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/pinggateway.png}
+        \caption[]{ping DHCP Server}
+        \includegraphics*[width=1.0\textwidth]{fig/pingdns.png}
+        \caption[]{ping DNS Server}
+      \end{figure}
+      \underline{The DHCP/DNS servers are not in the same network while the ping succeed means that}\\
+      \underline{there is one or more routers connecting the local network and the networks where the}\\
+      \underline{DHCP/DNS servers located, and the DHCP/DNS packets are forwarded by the routes}\\
+      Was the \textbf{ping} successful? \underline{Yes}
+
+      \newpage
+      \item What is the IP address of your default gateway?\
+      \underline{192.168.1.1}\\
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/pinggateway.png}
+        \caption[]{ping gateway Server}
+      \end{figure}
+      Try to \textbf{ping} the IP address of the default gateway. Was it successful?
+      \underline{Yes}
+
+      \item Tracert a website and explain what you have found.
+      \begin{figure}[H]
+        \includegraphics*[width=1.0\textwidth]{fig/traceroute.png}
+        \caption{traceroute login.hdu.edu.cn}
+      \end{figure}
+      从图中可以看出，本机和login.hdu.edu.cn服务器在两个不同的子网
+
+      本机所处的局域网是10.*.*.*，login.hdu.edu.cn服务器所在的局域网是192.168.*.*，
+      这两个局域网之间通过一个路由器(210.32.39.251)相连接
+
+    \end{enumerate}
+
+    \newpage
+\end{document}

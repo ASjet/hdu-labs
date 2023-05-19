@@ -1,0 +1,130 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=2.0cm, bottom=2.0cm, left=2.0cm, right=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        {\fontsize{24pt}{0}
+          \textbf{计算机通信与网络\\实验报告\\}
+        }
+        \vspace*{10cm}
+        {\fontsize{16pt}{0}
+          \textbf{\ 姓\quad 名\ }: \underline{\makebox[100pt]{xxx}}\\
+          \textbf{\ 学\quad 号\ }: \underline{\makebox[100pt]{\Large xxxx}}\\
+          \textbf{\ 班\quad 级\ }: \underline{\makebox[100pt]{\Large xxxx}}\\
+          \textbf{上课时间}: \underline{\makebox[100pt]{\Large yyyy.mm.dd}}\\
+        }
+        \vspace*{7cm}
+        {\fontsize{16pt}{0}
+          \textbf{实验名称: {\Large Data link layer simulation}}
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+    \begin{itemize}
+      \item Simulation on Performance of Data Link Control Protocols
+    \end{itemize}
+
+  \section{实验内容与要求}
+    \begin{enumerate}
+      \item \textbf{Draw Figure7.12 and 7.13}
+      \item \textbf{Simulation on Performance of Data Link Control Protocols}\\
+      Using the same assumptions that are used for Figure7.13 in Appendix 7A,
+      plot line utilization as a function of P, the probability that a single frame is in error
+      for the following error-control techniques:
+      \paragraph*{a.} Stop-and-wait
+      \paragraph*{b.} Go-back-N with w = 7
+      \paragraph*{c.} Go-back-N with w = 127
+      \paragraph*{d.} Selective reject with w = 7
+      \paragraph*{e.} Selective reject with w = 127
+
+      Do all of the preceding for the following values of $a$: 0.1, 1, 10, 100.
+      Draw conclusions about which technique is appropriate for various ranges of $a$.
+    \end{enumerate}
+
+    \paragraph*{实验原理}
+    \begin{enumerate}
+      \item 将无关变量设为符号，推导出目标变量与线路利用率的函数关系
+      \item 对无关变量取极限，即可得到一般意义上的利用率函数
+    \end{enumerate}
+
+
+    \newpage
+    \section{实验程序与结果}
+    \subsection{运行结果}
+
+    \begin{figure}[H]
+      \includegraphics*[width=1\textwidth]{fig/figure12.png}
+      \caption{Figure 7.12}
+    \end{figure}
+    \begin{figure}[H]
+      \includegraphics*[width=1\textwidth]{fig/figure13.png}
+      \caption{Figure 7.13}
+    \end{figure}
+    \newpage
+    \begin{figure}[H]
+      \includegraphics*[width=1\textwidth]{fig/stopandwait.png}
+      \caption{Stop-and-wait}
+    \end{figure}
+    \begin{figure}[H]
+      \includegraphics*[width=1\textwidth]{fig/gobackN.png}
+      \caption{Go-back-N}
+    \end{figure}
+    \begin{figure}[H]
+      \includegraphics*[width=1\textwidth]{fig/selectreject.png}
+      \caption{Selective reject}
+    \end{figure}
+
+    \section{实验结果分析}
+    \subsection*{Stop-and-wait}
+    从图3结合公式可以看出，当误码率$P$不变时，随着传播时间$a$的提高，
+    stop-and-wait花了更多的时间在等待数据包传播上，因此线路的利用率随着$a$提高而下降
+
+    当传播时间$a$不变时，误码率$P$越高，则stop-and-wait的超时次数更多，
+    且传输的有效数据占比更小，因此线路利用率随着$P$提高而下降
+    \subsection*{Go-back-N}
+    从图4结合公式可以看出，当误码率$P$为0时，若$a$满足$a\leq\frac{W-1}{2}$，则线路利用率与$a$无关；
+    不满足时，随着$a$提高，需要花更多时间等待数据包到达接收端以便清空发送窗口，此时线路利用率随着$a$提高而下降。
+    当误码率$P$不变且不为0时，随着传播时间$a$的提高，go-back-N的重传代价越高，
+    因此线路利用率随着$P$提高而下降
+
+    当传播时间$a$不变时，误码率$P$越高，go-back-N的重传次数越多，传输的有效数据占比更小，
+    因此线路利用率随着$P$提高而下降
+    \subsection*{Selective reject}
+    从图5结合公式可以看出，当误码率$P$不变时，传播时间$a$在满足$a \leq \frac{W-1}{2}$时对线路利用率无影响；
+    当$a$满足$a > \frac{W-1}{2}$时，selective reject需要花更多的时间等待数据包传播以便清空发送窗口，
+    此时线路利用率随着$a$提高而下降
+
+    当传播时间$a$不变时，误码率$P$越高，selective reject传播的有效数据占比更小，
+    因此线路利用率随着$P$提高而下降
+
+
+    \newpage
+    \section{实验问题解答与体会}
+    这次实验对不同的差错控制协议进行了仿真分析，绘制出了线路利用率对各种变量的变化曲线，
+    使我对差错控制协议的效果有了一个直观的感受，同时将公式与图形结合起来也加深了我对控制协议的更深层次的理解
+
+\end{document}

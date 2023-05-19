@@ -1,0 +1,20 @@
+[package]
+name = "crcchk"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "binutils"
+path = "src/binutils.rs"
+
+[[bin]]
+name = "crcch"
+path = "src/crcchk.rs"
+
+[[bin]]
+name = "paritychk"
+path = "src/parity.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
