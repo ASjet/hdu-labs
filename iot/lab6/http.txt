@@ -1,0 +1,23 @@
+GET / HTTP/1.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+User-Agent: HTTPie/3.2.1
+Host: 172.20.10.10:80
+
+
+
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: text/html
+Refresh: 5
+
+<!DOCTYPE HTML>
+<html>
+analog input 0 is 0<br />
+analog input 1 is 1<br />
+analog input 2 is 2<br />
+analog input 3 is 3<br />
+analog input 4 is 4<br />
+analog input 5 is 5<br />
+</html>

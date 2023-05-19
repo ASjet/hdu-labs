@@ -1,0 +1,254 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+\lstset{
+  frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  numbers=none,
+  basicstyle = \ttfamily,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.9\textwidth]{../HDU.png}\\
+        \vspace*{2.5cm}
+        {\fontsize{24pt}{0}
+          《物联网技术实验》\\
+          \fontsize{36pt}{0}
+          \vspace*{1cm}
+          实验报告\\
+        }
+        \vspace*{3cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{实验名称:} \underline{\makebox[230pt]{\Large GPIO、外部中断和UART的应用}}\\
+          \vspace*{2cm}
+          \makebox[80pt]{姓\qquad \quad 名:} \underline{\makebox[100pt]{\Large xxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{学\qquad \quad 号:} \underline{\makebox[100pt]{\Large xxxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{专\qquad \quad 业:} \underline{\makebox[100pt]{\Large xxxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{实验时间:} \underline{\makebox[100pt]{\Large yyyy.mm.dd}}\\
+          \vspace*{5cm}
+          杭州电子科技大学\\通信工程学院
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+  掌握CC3200 launchpad基本模块GPIO、外部中断、UART的原理和应用以及Energia相关命令的使用方法。
+
+  \section{实验内容}
+  \begin{enumerate}
+    \item Energia基础及安装
+    \item CC3200 launchpad相关硬件
+    \item GPIO原理与应用
+    \item 外部中断的原理与应用
+    \item UART原理与应用
+  \end{enumerate}
+
+  \section{运行结果与分析}
+  \paragraph{1.描述什么是GPIO中断？中断源有哪些？中断分类？中断系统一般包括那些部分？如何设置中断优先级？\\}
+
+  \quad GPIO全程为General Purpose Input/Output，即通用输入输出接口，能通过程序读取和控制引脚的电平值。
+  GPIO中断就是由GPIO引脚的输入引发的中断。
+  CC3200 具有诸多中断源：GPIO 中断，Timer 中断，SPI 中断，I2C 中断等。
+
+  中断可以分为外部中断和内部中断。中断系统一般由硬件部分的状态控制字(控制寄存器)和软件部分的中断向量组成。
+
+  在CC3200中可以通过CC3200SDK编程设置中断优先级
+
+  \paragraph{2.为什么需要对按键进行消抖？按键消抖有哪些方法？各有什么优缺点？\\}
+
+  \quad 因为按键的非刚体机械结构会导致触点在接触的瞬间会多次通断，导致电平上下延有毛刺出现，
+  即按键抖动。由于处理器的指令周期在微秒级，而按键抖动的持续时间在毫秒级，
+  因此为了保证程序能正确的识别出按键事件而不被抖动干扰，需要对按键进行消抖。
+
+  \paragraph{按键消抖包括硬件消抖和软件消抖}
+  \begin{itemize}
+    \item 硬件消抖是使用消抖电路(双稳态寄存器、RC滤波等)实现，
+    使得处理器收到的信号是消抖过的信号。优点是不需要再在软件层面上进行处理，性能好；
+    缺点是当按键数过多时会导致电路复杂度上升。
+    \item 软件消抖是使用延时的方法，在第一次收到按键信号时延时等待一段时间(5-20ms)之后再次读取按键电平值，
+    判断是否发生电平改变，以确定按键事件。优点是可以处理所有的按键抖动；缺点是延时等待会浪费CPU周期。
+  \end{itemize}
+
+  \paragraph{3.MCU是什么？MCU分为哪几类？各有什么特点和应用场合？\\}
+
+  \quad MCU全称是Micro Controller Unit，即微控制器单元，
+  是指将处理器和各种外围设备(内存、UART、A/D等)集成到一块芯片上，形成的芯片级计算机，即单片机。
+
+  \begin{itemize}
+    \item 按用途可以分为通用型MCU和专用型MCU
+    \item 按处理器位宽可分为4位、8位、16位、32位和64位MCU
+    \item 按存储器结构可分为哈佛型和冯诺依曼型
+    \item 按指令集架构可分为精简指令集(RISC)型和复杂指令集(CISC)型
+  \end{itemize}
+
+  \paragraph{4.CC3200有哪些特性？包含哪些硬件资源？应用范围？\\}
+  CC3200 SimpleLink Wi-Fi — 由应用微控制器，Wi-Fi 网络处理器和电源管理子系统组成
+  \paragraph*{硬件资源如下}
+  \begin{itemize}
+    \item 应用微控制器子系统
+    \begin{itemize}
+      \item ARM®Cortex®-M4 内核，运行频率 80MHz
+      \item 嵌入式存储器
+      \begin{itemize}
+        \item RAM(高达 256KB)
+        \item 外部串行闪存引导加载程序，和 ROM 中的外设驱动程序
+      \end{itemize}
+      \item 32 通道直接内存访问 (DMA)
+      \item 针对高级快速安全性的硬件加密引擎，其中包括
+      \begin{itemize}
+        \item AES，DES 和 3DES
+        \item SHA2 和 MD5
+        \item 循环冗余校验 (CRC) 与校验和
+      \end{itemize}
+      \item 8位并行摄像头接口
+      \item 1个多通道音频串口 (McASP) 接口，支持 2 个 I2S 通道
+      \item 1 个 SD/MMC 接口
+      \item 2 个通用异步收发器 (UART)
+      \item 1 个串行外设接口 (SPI)
+      \item 1 个内部集成电路 ($\mathrm{I^2C}$)
+      \item 4 个通用定时器，支持 16 位脉宽调制 (PWM) 模式
+      \item 4 个通用定时器，支持 16 位脉宽调制 (PWM) 模式
+      \item 4 通道 12 位模数转换器 (ADC)
+      \item 多达 27 个独立可编程、复用通用输入输出 (GPIO) 引脚
+    \end{itemize}
+    \item Wi-Fi 网络处理器子系统
+    \begin{itemize}
+      \item 特有 Wi-Fi Internet-On-a-Chip™
+      \item 专用 ARM MCU 完全解除应用微控制器的 Wi-Fi 和互联网协议处理负担
+      \item ROM 中 的 Wi-Fi 以及 互联网协议
+      \item 802.11 b/g/n 射频、基带，媒介访问控制 (MAC)，Wi-Fi 驱动器和请求方
+      \item TCP/IP 堆栈
+      \begin{itemize}
+        \item 行业标准 BSD 插槽应用编程接口 (API)
+        \item 8 个同时 TCP 或 UCP 插槽
+        \item 2 个同时 TLS 和 SSL 插槽
+      \end{itemize}
+      \item 强大的加密引擎，用于与针对 TLS 和 SSL 连接的 256 位 AES 加密的快速、安全 Wi-Fi 和互联网连接
+      \item 基站、访问点 (AP) 和 Wi-Fi Direct® 模式
+      \item WPA2 个人和企业安全性
+      \item 针对自主和快速 Wi-Fi 连接的 SimpleLink 连接管理器
+      \item SmartConfig™ 技术，AP 模式和 WPS2，这些技术用于实现简单且灵活的 Wi-Fi 服务开通
+      \item Tx 功率
+      \begin{itemize}
+        \item 18.0 dBm @ 1 DSSS
+        \item 18.0 dBm @ 1 DSSS
+      \end{itemize}
+      \item RX 灵敏度
+      \begin{itemize}
+        \item -95.7 dBm @ 1 DSSS
+        \item -74.0 dBm @ 54 OFDM
+      \end{itemize}
+    \end{itemize}
+    \item 电源管理子系统
+    \begin{itemize}
+      \item 集成直流-直流转换器支持宽范围的电源电压：
+      \begin{itemize}
+        \item $\mathrm{V_{BAT}}$ 宽电压模式：2.1 至 3.6V
+        \item 预稳压 1.85V 模式
+      \end{itemize}
+      \item 高级低功耗模式
+      \begin{itemize}
+        \item 支持实时时钟 (RTC) 的休眠：4µA
+        \item 低功耗深度睡眠 (LPDS)：120 µA
+        \item RX 流量（MCU 激活）：59 mA@54正交频分复用 (OFDM)
+        \item TX 流量（MCU 激活）：229 mA@54OFDM，最大功率
+        \item 空闲连接（处于 LPDS 中的 MCU）：695 µA @ DTIM = 1
+      \end{itemize}
+    \end{itemize}
+    \item 时钟源
+    \begin{itemize}
+      \item 具有内部振荡器的 40.0MHz 晶振
+      \item 32.768kHz 晶振或外部 RTC 时钟
+    \end{itemize}
+    \item 封装和工作温度
+    \begin{itemize}
+      \item 0.5mm 焊球间距，64 引脚，9mm x 9mm 四方扁平无引线 (QFN)
+      \item 环境温度范围：-40°C 至 85°C
+    \end{itemize}
+  \end{itemize}
+
+  \paragraph*{主要应用于物联网范围，比如}
+  \begin{itemize}
+    \item 云连通性
+    \item 家庭自动化
+    \item 家用电器
+    \item 访问控制
+    \item 安防系统
+    \item 智能能源
+    \item 互联网网关
+    \item 工业控制
+    \item 智能插座和仪表计量
+    \item 无线音频
+    \item IP网络传感器节点
+  \end{itemize}
+
+  \paragraph{5.UART工作原理？有什么特点？描述UART通讯协议。假设串口波特率为9600,则一个byte实际传输速率为多少？\\}
+  \quad UART全称是Universal Asynchronous Receiver/Transmitter，即通用异步收发传输器，
+  将数据由串行通信与并行通信间做传输转换，作为并行输入称为串行输出的芯片。
+
+  UART是一种通用串行数据总线，用于异步通信。该总线双向通信，可以实现全双工传输和接收。
+  \paragraph*{UART通信协议}
+  \begin{itemize}
+    \item \textbf{起始位}：先发出一个逻辑“0”的信号，表示传输字符开始。
+    \item \textbf{数据位}：紧接着起始位之后。数据位的个数可以是4、5、6、7、8等，构成一个字符。
+    字符通常采用ASCII码来表示。从最低位开始传送，靠时钟定位。
+    \item \textbf{奇偶校验位}：数据位加上这一位后，使得“1”的位数应为偶数(偶校验)或奇数(奇校验)，
+    以次来校验数据传送的正确性。
+    \item \textbf{停止位}：它是一个字符数据的结束标志。可以是1位、1.5位、2位的高电平。
+    由于数据是在传输线上定时的，并且每一个设备有其自己的时钟，很可能在通信中两台设备间出现不同步。
+    因此停止位不仅仅是表示传输的结束，并且提供计算机校正时钟同步的机会。
+    适用于停止位的位数越多，不同时钟同步的容忍程度越大，但是数据传输率也就越慢。
+    \item \textbf{空闲位}：处于逻辑"1"状态，表示当前线路上没有数据传输。
+  \end{itemize}
+
+  当串口波特率为9600时，传输一个Byte的速率为$8/9600\approx 0.83\mathrm{ms}$
+
+  \paragraph{6.设计带控制开关的交通灯，红灯停、黄灯等、绿灯行，若有行人按开关，绿灯亮，行人优先通过。
+  通过UART返回对应灯的四种通行状态。给出程序设计流程图和详细程序，运行结果及结果分析\\}
+  \includegraphics*[width=1.0\textwidth]{iot-lab1.pdf}
+  \lstinputlisting[language=C++]{code/code.ino}
+  程序中设置了红灯持续时间为2秒，绿灯的持续时间为2秒，黄灯的持续时间为0.5秒。
+  每当行人按下按键时，绿灯会亮起并且持续2秒，然后从红灯开始继续循环。
+  若行人在绿灯亮时按下按钮，会导致绿灯的计时重置。
+
+  \includegraphics*[width=1.0\textwidth]{uart.png}
+
+  \section{实验小结}
+  这次实验使用UART和按键中断完成了交通灯控制程序，让我对中断的作用有了更深的理解。
+
+\end{document}
