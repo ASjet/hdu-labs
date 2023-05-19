@@ -1,0 +1,83 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm, left=2.0cm, right=2.0cm}
+\lstset{
+    basicstyle = \ttfamily,
+    commentstyle = \itshape,
+    numbers = left,
+    numberstyle = \zihao{-5}\ttfamily,
+    frame = lrtb
+}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{2cm}
+        \includegraphics[width=0.7\textwidth]{../HDU.png}\\
+        \vspace*{1cm}
+        {\fontsize{36pt}{0}
+          \textbf{机器学习实验\\报\quad 告\\}
+        }
+        \vspace*{12cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{\textbf{实验名称}} \underline{\makebox[250pt]{\Large 监督学习之分类学习}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{学\qquad 院}} \underline{\makebox[250pt]{\Large 通信工程学院}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{专\qquad 业}} \underline{\makebox[250pt]{\Large xxxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{学\qquad 号}} \underline{\makebox[250pt]{\Large xxxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{学生姓名}} \underline{\makebox[250pt]{\Large xxx}}\\
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+  根据所给的数据，进行分类学习
+
+  \section{实验内容与要求}
+  \begin{enumerate}
+    \item 需要从特征文件和标签文件中将所有数据加载到内存中，由于存在缺失值，此步骤还需要进行简单的数据预处理。
+    \item 创建对应的分类器，并使用训练数据进行训练。
+    \item 利用测试集预测，通过使用真实值和预测值的比对，计算模型整体的准确率和召回率，来评测模型。
+  \end{enumerate}
+
+  \section{实验程序与结果}
+  \subsection{程序代码}
+  \lstinputlisting[language=Python]{lab3.py}
+  \subsection{运行结果}
+  \begin{figure}[H]
+    % \includegraphics*[width=0.34\textwidth]{fig/KNC.png}
+    % \includegraphics*[width=0.34\textwidth]{fig/DTC.png}
+    % \includegraphics*[width=0.34\textwidth]{fig/GNB.png}
+    \includegraphics*[width=1.0\textwidth]{fig/output.png}
+  \end{figure}
+
+  \lstinputlisting[language=Python]{report_raw.txt}
+
+  \section{实验结果分析}
+  从上述图片和表格中来看，
+  高斯朴素贝叶斯的综合性能(平均F1-Score)最好；
+  决策树的综合性能最差。
+
+  在K邻近模型中标签为24的特征被完全错误分类，可能是由样本数量不平衡所导致。
+  \section{实验问题解答与体会}
+
+  这次实验通过使用sklearn库中的模型来对传感器数据及其对应的姿态标签进行了有监督分类训练，
+  并且得到了大于50\%的准确率，说明机器学习模型确实从数据中学习到了一定的特征。
+  同时也对机器学习所需要的计算量和数据量有了一个比较深刻的体会。
+\end{document}

@@ -1,0 +1,98 @@
+\documentclass[a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[heading = false]{ctex}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle = \ttfamily,
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\pagestyle{plain}
+\geometry{top=1.0cm, bottom=2.0cm}
+
+\begin{document}
+  \begin{titlepage}
+      \songti
+      \begin{center}
+        \vspace*{2cm}
+        \includegraphics[width=0.7\textwidth]{../HDU.png}\\
+        \vspace*{1cm}
+        {\fontsize{36pt}{0}
+          \textbf{机器学习实验\\报\quad 告\\}
+        }
+        \vspace*{12cm}
+        {\fontsize{18pt}{0}
+          \makebox[80pt]{\textbf{实验名称}} \underline{\makebox[250pt]{\Large 基于聚类的整图分割}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{学\qquad 院}} \underline{\makebox[250pt]{\Large 通信工程学院}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{专\qquad 业}} \underline{\makebox[250pt]{\Large xxxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{学\qquad 号}} \underline{\makebox[250pt]{\Large xxxx}}\\
+          \vspace*{0.5cm}
+          \makebox[80pt]{\textbf{学生姓名}} \underline{\makebox[250pt]{\Large xxx}}\\
+        }
+      \end{center}
+  \end{titlepage}
+
+  \CTEXsetup[format={\Large\bfseries}]{section}
+
+  \newpage
+  \section{实验目的}
+    \begin{enumerate}
+      \item 理解无监督学中Kmeans算法原理
+      \item 掌握Sklearn实现基于Kmeans的图像分割
+    \end{enumerate}
+
+  \section{实验内容与要求}
+    \begin{enumerate}
+      \item 利用K-means聚类算法对图像像素点颜色进行聚类实现简单的图像分割
+      \item 输出：同一聚类中的点使用相同的颜色标记，不同聚类颜色不同
+      \item 技术路线：\verb|sklearn.cluster.KMeans|
+    \end{enumerate}
+
+  \section{实验程序与结果}
+  \subsection{程序代码}
+  \lstinputlisting[language=Python]{lab8.py}
+  \subsection{运行结果}
+  由于KMeans只能输出聚类结果的标签值，因此要可视化结果需要将聚类标签映射到颜色空间上。
+  因为标签是一维的，所以选择了HSI的H通道(色调)作为映射的颜色空间，S和I的值都设置为1.0
+  \begin{figure}[H]
+    \includegraphics[width=1.0\textwidth]{fig/band.png}
+    \caption{HSI色带}
+  \end{figure}
+  \newpage
+  \begin{figure}[H]
+    \includegraphics[width=1.0\textwidth]{fig/res.png}
+    \caption{标签对应的颜色}
+    \includegraphics[width=1.0\textwidth]{fig/res2.png}
+    \caption{可视化聚类结果}
+  \end{figure}
+
+  \section{实验问题解答与体会}
+  本次实验使用了聚类算法对灰度图像进行分割，加深了我对Kmeans应用场景的理解
+
+\end{document}
